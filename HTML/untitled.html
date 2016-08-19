@@ -68,6 +68,15 @@
 					var angle3 = $("[name='m3_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
 					$.get("http://192.168.0.12:80/", {motor3:angle3}); // execute get request
+				});				
+				$("#send_all").click(function(){
+					var angle = $("[name='m1_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
+					var angle2 = $("[name='m2_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
+					var angle3 = $("[name='m3_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
+					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+					$.get("http://192.168.0.12:80/", {motor1:angle}); // execute get request
+					$.get("http://192.168.0.12:80/", {motor2:angle2}); // execute get request
+					$.get("http://192.168.0.12:80/", {motor3:angle3}); // execute get request
 				});
 
 			});
@@ -85,6 +94,9 @@
 	<div id="m3_slider">Motor 3</div>
 	<button id="m3" class="servo"> Send data to Motor 3</button> <!-- button for pin 11 -->
 
+	<button id="send_all" class="all_data"> Send ALL</button> <!-- button for pin 11 -->
+
+	
 	<!-- <script src="https://cdn.jsdelivr.net/jquery/1.11.3/jquery.min.js"></script> -->
 
 	</body>
