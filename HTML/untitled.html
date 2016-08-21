@@ -53,6 +53,22 @@
 					$.get("http://192.168.0.12:80/", {motor2:angle2}); // execute get request
 					$.get("http://192.168.0.12:80/", {motor3:angle3}); // execute get request
 				});
+				$("#m4_izq").click(function(){
+					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+					$.get("http://192.16.0.12:80/", {motor4:'izq'}); // execute get request
+				});
+				$("#m4_der").click(function(){
+					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+					$.get("http://192.16.0.12:80/", {motor4:'der'}); // execute get request
+				});
+				$("#m5_izq").click(function(){
+					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+					$.get("http://192.16.0.12:80/", {motor5:'izq'}); // execute get request
+				});
+				$("#m5_der").click(function(){
+					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+					$.get("http://192.16.0.12:80/", {motor5:'der'}); // execute get request
+				});
 
 			});
 		</script>
@@ -60,17 +76,31 @@
 	<body>
 	
 	<!-- in the <button> tags below the ID attribute is the value sent to the arduino -->
+	<h1>Motor 1</h1>
 	<div id="m1_slider">Motor 1</div>
+	<br>
 	<button id="m1" class="servo"> Send data to Motor 1</button> <!-- button for pin 11 -->	
-
+	
+	<h1>Motor 2</h1>
 	<div id="m2_slider">Motor 2</div>
+	<br>
 	<button id="m2" class="servo"> Send data to Motor 2</button> <!-- button for pin 11 -->
-
+	
+	<h1>Motor 3</h1>
 	<div id="m3_slider">Motor 3</div>
+	<br>
 	<button id="m3" class="servo"> Send data to Motor 3</button> <!-- button for pin 11 -->
-
+	
+	<h1>Control 3 motores</h1>
 	<button id="send_all" class="all_data"> Send ALL</button> <!-- button for pin 11 -->
 
-	
+	<h1>Motor 4</h1>
+	<button id="m4_izq" class="dcmotor"> <-</button> <!-- button for pin 11 -->
+	<button id="m4_der" class="dcmotor"> -></button> <!-- button for pin 11 -->
+
+	<h1>Motor 5</h1>
+	<button id="m5_izq" class="dcmotor"> <-</button> <!-- button for pin 11 -->
+	<button id="m5_der" class="dcmotor"> -></button> <!-- button for pin 11 -->
+
 	</body>
 </html>
