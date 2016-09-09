@@ -1,17 +1,28 @@
 #include <Servo.h>
 #include <ESP8266WiFi.h>
 
-const char* ssid = "your-ssid";
-const char* password = "your-password";
+const char* ssid = "TRINIDAD";
+const char* password = "Trinidad428";
 
 // Create an instance of the server
 // specify the port to listen on as an argument
+
+
+ Servo servo1;
+ Servo servo2;
+ Servo servo3;
+
 WiFiServer server(80);
 
-
-Servo servo1;
-Servo servo2;
-Servo servo3;
+int pinServo1 = 16;
+int pinServo2 = 14;
+int pinServo3 = 12;
+int enable1 = 5;
+int enable2 = 2;
+int dirm4_1 = 3;
+int dirm4_2 = 15;
+int dirm5_1 = 13;
+int dirm5_2 = 4;
 
 int pos1 = 0;    // variable to store the servo position1
 int pos2 = 0;    // variable to store the servo position2
@@ -19,89 +30,104 @@ int pos3 = 0;    // variable to store the servo position3
 String dir4 = "";    // variable to store the direction of motor 4
 String dir5 = "";    // variable to store the  direction of motor 5
 
-// Request disponibles http://192.168.173.115/?pin=13
+// // Request disponibles http://192.168.173.115/?pin=13
 
 void controlServo1(int angle) {
   servo1.write(angle);
   delay(15);
+  return;
 }
 void controlServo2(int angle) {
   servo2.write(angle);
   delay(15);
+  return;
 }
 void controlServo3(int angle) {
   servo3.write(angle);
   delay(15);
+  return;
 }
 void controlMotor4(String dir) {
   if (dir == "izq")
   {
     // Establece direccion
-    digitalWrite(3, 1);
-    digitalWrite(4, 0);
+    digitalWrite(dirm4_1, HIGH);
+    digitalWrite(dirm4_2, LOW);
     // Habilita el puente H
-    digitalWrite(2, 1);
-    delay(15);
+    digitalWrite(enable1, HIGH);
+    delay(500);
     // Deshabilita el puente H
-    digitalWrite(2, 0);
+    digitalWrite(enable1, LOW);
+    digitalWrite(dirm4_1, LOW);
+    digitalWrite(dirm4_2, LOW);
   }else{
     // Establece direccion
-    digitalWrite(3, 0);
-    digitalWrite(4, 1);
+    digitalWrite(dirm4_1, LOW);
+    digitalWrite(dirm4_2, HIGH);
     // Habilita el puente H
-    digitalWrite(2, 1);
-    delay(15);
+    digitalWrite(enable1, HIGH);
+    delay(500);
     // Deshabilita el puente H
-    digitalWrite(2, 0);
+    digitalWrite(enable1, LOW);
+    digitalWrite(dirm4_1, LOW);
+    digitalWrite(dirm4_2, LOW);
   }
+  return;
 }
 void controlMotor5(String dir) {
   if (dir == "izq")
   {
     // Establece direccion
-    digitalWrite(6, 1);
-    digitalWrite(7, 0);
+    digitalWrite(dirm5_1, HIGH);
+    digitalWrite(dirm5_2, LOW);
     // Habilita el puente H
-    digitalWrite(5, 1);
-    delay(15);
+    digitalWrite(enable2, HIGH);
+    delay(500);
     // Deshabilita el puente H
-    digitalWrite(5, 0);
+    digitalWrite(enable2, LOW);
+    digitalWrite(dirm5_1, LOW);
+    digitalWrite(dirm5_2, LOW);
   }else{
     // Establece direccion
-    digitalWrite(6, 0);
-    digitalWrite(7, 1);
+    digitalWrite(dirm5_1, LOW);
+    digitalWrite(dirm5_2, HIGH);
     // Habilita el puente H
-    digitalWrite(5, 1);
-    delay(15);
+    digitalWrite(enable2, HIGH);
+    delay(500);
     // Deshabilita el puente H
-    digitalWrite(5, 0);
+    digitalWrite(enable2, LOW);
+    digitalWrite(dirm5_1, LOW);
+    digitalWrite(dirm5_2, LOW);
   }
+  return;
 }
 
 void setup() {
-  Serial.begin(115200);
-  delay(10);
-// FALTA MIN y MAX
-  servo1.attach(10);  // attaches the servo1 on pin 10 to the servo object CAFE 
-  servo2.attach(11, 553, 2520);  // attaches the servo2 on pin 11 to the servo object VERDE
-  servo3.attach(12, 553, 2520);  // attaches the servo3 on pin 12 to the servo object AZUL 45-160
-// Prepara pin Enable
-  pinMode(2, OUTPUT); //Enable Motor 4
-  pinMode(5, OUTPUT); //Enable Motor 5
-// Prepara pin direction for motor 4
-  pinMode(3, OUTPUT); 
-  pinMode(4, OUTPUT);
-// Prepara pin direction for motor 5
-  pinMode(6, OUTPUT); 
-  pinMode(7, OUTPUT);
-  //Inicializa todo en 0 logico
-  digitalWrite(2, 0);
-  digitalWrite(3, 0);
-  digitalWrite(4, 0);
-  digitalWrite(5, 0);
-  digitalWrite(6, 0);
-  digitalWrite(7, 0);
 
+// FALTA MIN y MAX
+  servo1.attach(pinServo1);  // attaches the servo1 on pin 10 to the servo object CAFE 
+  servo2.attach(pinServo2, 553, 2520);  // attaches the servo2 on pin 11 to the servo object VERDE
+  servo3.attach(pinServo3, 553, 2520);  // attaches the servo3 on pin 12 to the servo object AZUL 45-160
+// Prepara pin Enable
+  pinMode(enable1, OUTPUT); //Enable Motor 4
+  pinMode(enable2, OUTPUT); //Enable Motor 5
+// Prepara pin direction for motor 4
+  pinMode(dirm4_1, OUTPUT); 
+  pinMode(dirm4_2, OUTPUT);
+// Prepara pin direction for motor 5
+  pinMode(dirm5_1, OUTPUT); 
+  pinMode(dirm5_2, OUTPUT);
+// Inicializa todo en 0 logico
+  digitalWrite(enable1, LOW);
+  digitalWrite(enable1, LOW);
+  digitalWrite(dirm4_1, LOW);
+  digitalWrite(dirm4_2, LOW);
+  digitalWrite(dirm5_1, LOW);
+  digitalWrite(dirm5_2, LOW);
+  
+
+   Serial.begin(115200);
+   delay(10);
   // Connect to WiFi network
   Serial.println();
   Serial.println();
@@ -146,25 +172,38 @@ void loop(){
   client.flush();
   
   // Match the request
-  int start, end;
-  start = req.indexOf('?');
-  end = req.indexOf('=');
+  int startR, endR;
+  startR = req.indexOf('?');
+  endR = req.indexOf('=')+1;
+  Serial.println(req.substring(startR,endR));
 
-  if(req.substring(start,end) == "?motor1="){
-    pos1 = req.substring(end+1).toInt();
+  if(req.substring(startR,endR) == "?motor1="){
+    pos1 = req.substring(endR).toInt();
     controlServo1(pos1);
-  }else if(req.substring(start,end) == "?motor2="){
-    pos2 = req.substring(end+1).toInt();
+      Serial.println(pos1);
+
+  }else if(req.substring(startR,endR) == "?motor2="){
+    pos2 = req.substring(endR).toInt();
     controlServo2(pos2);
-  }else if(req.substring(start,end) == "?motor3="){
-    pos3 = req.substring(end+1).toInt();
+          Serial.println(pos2);
+
+  }else if(req.substring(startR,endR) == "?motor3="){
+    pos3 = req.substring(endR).toInt();
     controlServo3(pos3);
-  }else if(req.substring(start,end) == "?motor4="){
-    dir4 = req.substring(end+1);
+          Serial.println(pos3);
+
+  }else if(req.substring(startR,endR) == "?motor4="){
+    dir4 = req.substring(endR);
+              Serial.println(dir4);
+
     controlMotor4(dir4);
-  }else if(req.substring(start,end) == "?motor5="){
-    dir5 = req.substring(end+1);
+
+  }else if(req.substring(startR,endR) == "?motor5="){
+    dir5 = req.substring(endR);
+          Serial.println(dir5);
+
     controlMotor5(dir5);
+
   }  else {
       Serial.println("invalid request");
       client.stop();
