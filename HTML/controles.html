@@ -5,6 +5,9 @@
 		<link href="scripts/dist/roundslider.min.css" rel="stylesheet" />
 		<script src="scripts/dist/roundslider.min.js"></script>
 		<script type="text/javascript">
+			// Cambiar direccion iP
+			var dirIP = "http://192.168.0.19:80/"
+			
 			$(document).ready(function(){
 				$("#m1_slider").roundSlider({
 				    radius: 80,
@@ -30,42 +33,42 @@
 				$("#m1").click(function(){
 					var angle = $("[name='m1_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
-					$.get("http://192.168.0.12:80/", {motor1:angle}); // execute get request
+					$.get(dirIP, {motor1:angle}); // execute get request
 				});
 				$("#m2").click(function(){
 					var angle2 = $("[name='m2_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
-					$.get("http://192.168.0.12:80/", {motor2:angle2}); // execute get request
+					$.get(dirIP, {motor2:angle2}); // execute get request
 				});
 				$("#m3").click(function(){
 					var angle3 = $("[name='m3_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
-					$.get("http://192.168.0.12:80/", {motor3:angle3}); // execute get request
+					$.get(dirIP, {motor3:angle3}); // execute get request
 				});				
 				$("#send_all").click(function(){
 					var angle = $("[name='m1_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
 					var angle2 = $("[name='m2_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
 					var angle3 = $("[name='m3_slider']").attr('value'); // get id value (i.e. pin13, pin12, or pin11)
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
-					$.get("http://192.168.0.12:80/", {motor1:angle}); // execute get request
-					$.get("http://192.168.0.12:80/", {motor2:angle2}); // execute get request
-					$.get("http://192.168.0.12:80/", {motor3:angle3}); // execute get request
+					$.get(dirIP, {motor1:angle}); // execute get request
+					$.get(dirIP, {motor2:angle2}); // execute get request
+					$.get(dirIP, {motor3:angle3}); // execute get request
 				});
 				$("#m4_izq").click(function(){
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
-					$.get("http://192.16.0.12:80/", {motor4:'izq'}); // execute get request
+					$.get(dirIP, {motor4:'izq'}); // execute get request
 				});
 				$("#m4_der").click(function(){
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
-					$.get("http://192.16.0.12:80/", {motor4:'der'}); // execute get request
+					$.get(dirIP, {motor4:'der'}); // execute get request
 				});
 				$("#m5_izq").click(function(){
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
-					$.get("http://192.16.0.12:80/", {motor5:'izq'}); // execute get request
+					$.get(dirIP, {motor5:'izq'}); // execute get request
 				});
 				$("#m5_der").click(function(){
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
-					$.get("http://192.16.0.12:80/", {motor5:'der'}); // execute get request
+					$.get(dirIP, {motor5:'der'}); // execute get request
 				});
 			});
 
