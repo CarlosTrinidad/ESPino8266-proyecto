@@ -17,12 +17,14 @@ WiFiServer server(80);
 int pinServo1 = 16;
 int pinServo2 = 14;
 int pinServo3 = 12;
+
 int enable1 = 5;
-int enable2 = 2;
-int dirm4_1 = 3;
-int dirm4_2 = 15;
-int dirm5_1 = 13;
-int dirm5_2 = 4;
+int dirm4_1 = 4;
+int dirm4_2 = 13;
+
+int enable2 = 0;
+int dirm5_1 = 2;
+int dirm5_2 = 15;
 
 int pos1 = 0;    // variable to store the servo position1
 int pos2 = 0;    // variable to store the servo position2
@@ -48,6 +50,7 @@ void controlServo3(int angle) {
   return;
 }
 void controlMotor4(String dir) {
+
   if (dir == "izq")
   {
     // Establece direccion
@@ -61,6 +64,7 @@ void controlMotor4(String dir) {
     digitalWrite(dirm4_1, LOW);
     digitalWrite(dirm4_2, LOW);
   }else{
+    if (dir == "der"){
     // Establece direccion
     digitalWrite(dirm4_1, LOW);
     digitalWrite(dirm4_2, HIGH);
@@ -71,35 +75,38 @@ void controlMotor4(String dir) {
     digitalWrite(enable1, LOW);
     digitalWrite(dirm4_1, LOW);
     digitalWrite(dirm4_2, LOW);
+    }
   }
   return;
 }
 void controlMotor5(String dir) {
-  if (dir == "izq")
-  {
-    // Establece direccion
-    digitalWrite(dirm5_1, HIGH);
-    digitalWrite(dirm5_2, LOW);
-    // Habilita el puente H
-    digitalWrite(enable2, HIGH);
-    delay(500);
-    // Deshabilita el puente H
-    digitalWrite(enable2, LOW);
-    digitalWrite(dirm5_1, LOW);
-    digitalWrite(dirm5_2, LOW);
-  }else{
-    // Establece direccion
-    digitalWrite(dirm5_1, LOW);
-    digitalWrite(dirm5_2, HIGH);
-    // Habilita el puente H
-    digitalWrite(enable2, HIGH);
-    delay(500);
-    // Deshabilita el puente H
-    digitalWrite(enable2, LOW);
-    digitalWrite(dirm5_1, LOW);
-    digitalWrite(dirm5_2, LOW);
+ if (dir == "izq")
+ {
+   // Establece direccion
+   digitalWrite(dirm5_1, HIGH);
+   digitalWrite(dirm5_2, LOW);
+   // Habilita el puente H
+   digitalWrite(enable2, HIGH);
+   delay(500);
+   // Deshabilita el puente H
+   digitalWrite(enable2, LOW);
+   digitalWrite(dirm5_1, LOW);
+   digitalWrite(dirm5_2, LOW);
+ }else{
+      if (dir == "der"){
+   // Establece direccion
+   digitalWrite(dirm5_1, LOW);
+   digitalWrite(dirm5_2, HIGH);
+   // Habilita el puente H
+   digitalWrite(enable2, HIGH);
+   delay(500);
+   // Deshabilita el puente H
+   digitalWrite(enable2, LOW);
+   digitalWrite(dirm5_1, LOW);
+   digitalWrite(dirm5_2, LOW);
   }
-  return;
+ }
+ return;
 }
 
 void setup() {
@@ -115,11 +122,11 @@ void setup() {
   pinMode(dirm4_1, OUTPUT); 
   pinMode(dirm4_2, OUTPUT);
 // Prepara pin direction for motor 5
-  pinMode(dirm5_1, OUTPUT); 
-  pinMode(dirm5_2, OUTPUT);
+ pinMode(dirm5_1, OUTPUT); 
+ pinMode(dirm5_2, OUTPUT);
 // Inicializa todo en 0 logico
   digitalWrite(enable1, LOW);
-  digitalWrite(enable1, LOW);
+  digitalWrite(enable2, LOW);
   digitalWrite(dirm4_1, LOW);
   digitalWrite(dirm4_2, LOW);
   digitalWrite(dirm5_1, LOW);
@@ -172,36 +179,30 @@ void loop(){
   client.flush();
   
   // Match the request
-  int startR, endR;
+  int startR, endR, endVal;
   startR = req.indexOf('?');
   endR = req.indexOf('=')+1;
+  endVal =req.indexOf('H',endR);
   Serial.println(req.substring(startR,endR));
 
   if(req.substring(startR,endR) == "?motor1="){
     pos1 = req.substring(endR).toInt();
     controlServo1(pos1);
-      Serial.println(pos1);
 
   }else if(req.substring(startR,endR) == "?motor2="){
     pos2 = req.substring(endR).toInt();
     controlServo2(pos2);
-          Serial.println(pos2);
 
   }else if(req.substring(startR,endR) == "?motor3="){
     pos3 = req.substring(endR).toInt();
     controlServo3(pos3);
-          Serial.println(pos3);
 
   }else if(req.substring(startR,endR) == "?motor4="){
-    dir4 = req.substring(endR);
-              Serial.println(dir4);
-
+    dir4 = req.substring(endR, endVal-1);
     controlMotor4(dir4);
 
   }else if(req.substring(startR,endR) == "?motor5="){
-    dir5 = req.substring(endR);
-          Serial.println(dir5);
-
+    dir5 = req.substring(endR, endVal-1);
     controlMotor5(dir5);
 
   }  else {
