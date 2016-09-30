@@ -70,6 +70,14 @@
 					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
 					$.get(dirIP, {motor5:'der'}); // execute get request
 				});
+				$("#m6_izq").click(function(){
+					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+					$.get(dirIP, {motor6:'izq'}); // execute get request
+				});
+				$("#m6_der").click(function(){
+					// send HTTP GET request to the IP address with the parameter "pin" and value "p", then execute the function
+					$.get(dirIP, {motor6:'der'}); // execute get request
+				});
 			});
 
 
@@ -122,6 +130,10 @@ position: absolute;
 	<h1 onMouseOver="cambiar(1);" onMouseOut="volver();">Motor 5</h1>
 	<button id="m5_izq" class="dcmotor" onMouseOver="cambiar(1);" onMouseOut="volver();"> <-</button> <!-- button for pin 11 -->
 	<button id="m5_der" class="dcmotor" onMouseOver="cambiar(1);" onMouseOut="volver();"> -></button> <!-- button for pin 11 -->
+	
+	<h1 onMouseOver="cambiar(1);" onMouseOut="volver();">Motor 6</h1>
+	<button id="m6_izq" class="dcmotor" onMouseOver="cambiar(1);" onMouseOut="volver();"> <-</button> <!-- button for pin 11 -->
+	<button id="m6_der" class="dcmotor" onMouseOver="cambiar(1);" onMouseOut="volver();"> -></button> <!-- button for pin 11 -->
 
 	<img src="images/brazo.png" id="matrix"/>
 
